@@ -2,7 +2,7 @@
 
 This repository is for Leetcode Study.
 
-Start on 2021/8/17.
+Start on 2021/8/27.
 
 Keeping on updating this repository…
 
