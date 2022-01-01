@@ -8,4 +8,3 @@ Keeping on updating this repository…
 
 > No matter the consequences!
 
-move the repository to Gitee on 2021/10/6
