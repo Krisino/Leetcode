@@ -1,41 +1,45 @@
 class Solution {
 public:
-    int strStr(string haystack, string needle) {
-        if(needle == "") return 0;
-        int len = needle.length();
-        int arr[len];
-        memset(arr,0,sizeof(arr));
-        int index = 0;
-        for(int i = 1; i < len;){
-            if(needle[index] == needle[i]){
-                arr[i] = index + 1;
-                i++;
-                index++;
-            }else{
-                if(index != 0){
-                    index = arr[index - 1];
-                }else{
-                    arr[i] = 0;
-                    i++;
-                }
+    // 此方法将前缀表每个值 -1 得到新前缀表 next
+    void getNext(int * next, const string & s) {
+        int j = -1;
+        next[0] = j;
+        for(int i = 1; i < s.length(); i++) {
+            // 失配情况
+            while(j >=0 && s[i] != s[j + 1]) {
+                // 关键步骤
+                j = next[j];
             }
-        }
-        int i = 0;
-        int j = 0;
-        while(i < haystack.length() && j < needle.length()){
-            if(haystack[i] == needle[j]){
-                i++;
+            // 成功匹配
+            if(s[i] == s[j + 1]) {
                 j++;
-            }else{
-                if(j != 0){
-                    j = arr[j - 1];
-                }else{
-                    i++;
-                }
             }
+            next[i] = j;
         }
-        if(j == needle.length()){
-            return i - j;
+    }
+    int strStr(string haystack, string needle) {
+        if(needle.length() == 0) {
+            return 0;
+        }
+        int next[needle.length()];
+        // 填充前缀表
+        getNext(next, needle);
+        // j + 1 表示当前已经匹配成功的长度
+        // j = -1 表示当前无匹配成功的字符
+        int j = -1;
+        for(int i = 0; i < haystack.length(); i++) {
+            // 失配
+            while(j >= 0 && haystack[i] != needle[j + 1]) {
+                j = next[j];
+            }
+            // 匹配成功，j自增
+            if(haystack[i] == needle[j + 1]) {
+                j++;
+            }
+            // 找到一个成功匹配的串，返回其起始位置
+            if(j + 1 == needle.length()) {
+                return (i - j);
+            }
         }
         return -1;
     }
