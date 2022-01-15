@@ -1,37 +1,23 @@
 class Solution {
 public:
     int evalRPN(vector<string>& tokens) {
-        stack<int> stk;
-        int n = tokens.size();
-        for (int i = 0; i < n; i++) {
-            string& token = tokens[i];
-            if (isNumber(token)) {
-                stk.push(atoi(token.c_str()));
+        stack<int> st;
+        for (int i = 0; i < tokens.size(); i++) {
+            if (tokens[i] == "+" || tokens[i] == "-" || tokens[i] == "*" || tokens[i] == "/") {
+                int num1 = st.top();
+                st.pop();
+                int num2 = st.top();
+                st.pop();
+                if (tokens[i] == "+") st.push(num2 + num1);
+                if (tokens[i] == "-") st.push(num2 - num1);
+                if (tokens[i] == "*") st.push(num2 * num1);
+                if (tokens[i] == "/") st.push(num2 / num1);
             } else {
-                int num2 = stk.top();
-                stk.pop();
-                int num1 = stk.top();
-                stk.pop();
-                switch (token[0]) {
-                    case '+':
-                        stk.push(num1 + num2);
-                        break;
-                    case '-':
-                        stk.push(num1 - num2);
-                        break;
-                    case '*':
-                        stk.push(num1 * num2);
-                        break;
-                    case '/':
-                        stk.push(num1 / num2);
-                        break;
-                }
+                st.push(stoi(tokens[i]));
             }
         }
-        return stk.top();
-    }
-
-    bool isNumber(string& token) {
-        return !(token == "+" || token == "-" || token == "*" || token == "/");
+        int result = st.top();
+        st.pop();
+        return result;
     }
 };
