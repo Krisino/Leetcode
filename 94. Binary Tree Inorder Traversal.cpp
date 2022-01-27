@@ -23,19 +23,21 @@ public:
     //     function(root, ans);
     //     return ans;
     // }
+
     // Version 2
     vector<int> inorderTraversal(TreeNode* root) {
         vector<int> ans;
-        stack<TreeNode*> stk;
-        while(root != nullptr || stk.size() > 0){
-            if(root != nullptr){
-                stk.push(root);
-                root = root->left;
+        TreeNode* cur = root;
+        stack<TreeNode*> mp;
+        while(cur != NULL || !mp.empty()) {
+            if(cur != NULL) {
+                mp.push(cur);
+                cur = cur->left;
             } else {
-                TreeNode* tmp = stk.top();
-                stk.pop();
-                ans.push_back(tmp->val);
-                root = tmp->right;
+                cur = mp.top();
+                mp.pop();
+                ans.push_back(cur->val);
+                cur = cur->right;
             }
         }
         return ans;
