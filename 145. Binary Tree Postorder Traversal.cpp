@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-    // verison one
+    // verison 1
     // void preOrder(TreeNode* root, vector<int>& res) {
     // if(root == NULL) {
     //     return;
@@ -27,7 +27,30 @@ public:
     //     return result;
     // }
 
-    // version two
+    // version 2
+    // vector<int> postorderTraversal(TreeNode* root) {
+    //     vector<int> result;
+    //     stack<TreeNode*> stk;
+    //     if(root == NULL) {
+    //         return result;
+    //     }
+    //     stk.push(root);
+    //     while(!stk.empty()) {
+    //         TreeNode* node = stk.top();
+    //         result.push_back(node->val);
+    //         stk.pop();
+    //         if(node->left) {
+    //             stk.push(node->left);
+    //         }
+    //         if(node->right) {
+    //             stk.push(node->right);
+    //         }
+    //     }
+    //     reverse(result.begin(), result.end());
+    //     return result;
+    // }
+
+    // version 3
     vector<int> postorderTraversal(TreeNode* root) {
         vector<int> result;
         stack<TreeNode*> stk;
@@ -37,16 +60,21 @@ public:
         stk.push(root);
         while(!stk.empty()) {
             TreeNode* node = stk.top();
-            result.push_back(node->val);
-            stk.pop();
-            if(node->left) {
-                stk.push(node->left);
-            }
-            if(node->right) {
-                stk.push(node->right);
+            if(node != NULL) {
+                stk.push(NULL);
+                if(node->right) {
+                    stk.push(node->right);
+                }
+                if(node->left) {
+                    stk.push(node->left);
+                }
+            } else {
+                stk.pop();
+                node = stk.top();
+                stk.pop();
+                result.push_back(node->val);
             }
         }
-        reverse(result.begin(), result.end());
         return result;
     }
-};
+}; 

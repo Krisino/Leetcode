@@ -25,21 +25,51 @@ public:
     // }
 
     // Version 2
+    // vector<int> inorderTraversal(TreeNode* root) {
+    //     vector<int> ans;
+    //     TreeNode* cur = root;
+    //     stack<TreeNode*> mp;
+    //     while(cur != NULL || !mp.empty()) {
+    //         if(cur != NULL) {
+    //             mp.push(cur);
+    //             cur = cur->left;
+    //         } else {
+    //             cur = mp.top();
+    //             mp.pop();
+    //             ans.push_back(cur->val);
+    //             cur = cur->right;
+    //         }
+    //     }
+    //     return ans;
+    // }
+
+    // Version 3
     vector<int> inorderTraversal(TreeNode* root) {
-        vector<int> ans;
-        TreeNode* cur = root;
-        stack<TreeNode*> mp;
-        while(cur != NULL || !mp.empty()) {
-            if(cur != NULL) {
-                mp.push(cur);
-                cur = cur->left;
-            } else {
-                cur = mp.top();
-                mp.pop();
-                ans.push_back(cur->val);
-                cur = cur->right;
+        vector<int> result;
+        stack<TreeNode*> stk;
+        if(root == NULL) {
+            return result;
+        }
+        stk.push(root);
+        while(!stk.empty()) {
+            TreeNode* node = stk.top();
+            if(node != NULL) {
+                stk.pop();
+                if(node->right) {
+                    stk.push(node->right);
+                }
+                stk.push(node);
+                stk.push(NULL);
+                if(node->left) {
+                    stk.push(node->left);
+                }
+            }else {
+                stk.pop();
+                node = stk.top();
+                stk.pop();
+                result.push_back(node->val);
             }
         }
-        return ans;
+        return result;
     }
 };

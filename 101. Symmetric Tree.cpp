@@ -11,21 +11,25 @@
  */
 class Solution {
 public:
-    bool Symmetric(TreeNode* left, TreeNode* right) {
-        if (left == nullptr && right == nullptr) {
+    bool compare(TreeNode* left, TreeNode* right) {
+        if(left == NULL && right != NULL) {
+            return false;
+        } else if(right == NULL && left != NULL) {
+            return false;
+        } else if(left == NULL && right == NULL) {
+            return true;
+        } else if(left->val != right->val) {
+            return false;
+        }
+        bool outside = compare(left->left, right->right);
+        bool inside = compare(left->right, right->left);
+        return outside && inside;
+    }
+
+    bool isSymmetric(TreeNode* root) {
+        if(root == NULL) {
             return true;
         }
-        if (left == nullptr || right == nullptr) {
-            return false;
-        }
-        if(left->val != right->val) {
-            return false;
-        }
-        return Symmetric(left->left, right->right) && Symmetric(left->right, right->left);
-    }
-    bool isSymmetric(TreeNode* root) {
-        TreeNode *left = root->left;
-        TreeNode *right = root->right;
-        return Symmetric(left, right);
+        return compare(root->left, root->right);
     }
 };
